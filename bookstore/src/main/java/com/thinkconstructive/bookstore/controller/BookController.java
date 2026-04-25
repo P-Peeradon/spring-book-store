@@ -1,6 +1,5 @@
 package com.thinkconstructive.bookstore.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/book-store")
@@ -37,33 +37,30 @@ public class BookController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<String>> getAllBooks() 
+    public ResponseEntity<List<BookDto>> getAllBooks() 
     {
-        List<String> books = new ArrayList<>();
-        books.add("Java");
-        books.add("MongoDB");
-        books.add("Spring Boot");
-
+        List<BookDto> books = bookService.getAllBooks();
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> createBook(String book)
+    public ResponseEntity<BookDto> createBook(@RequestBody BookDto bookDto)
     {
-        return new ResponseEntity<>("Book Created", HttpStatus.CREATED);
+        BookDto bookDto1 = bookService.createBook(bookDto);
+        return new ResponseEntity<>(bookDto1, HttpStatus.CREATED);
     }
 
     @PutMapping("/")
-    public ResponseEntity<String> updateBook(String book) 
+    public ResponseEntity<BookDto> updateBook(@RequestBody BookDto bookDto) 
     {
-        
-        
-        return new ResponseEntity<>("Book Updated", HttpStatus.OK);
+        BookDto bookDto1 = bookService.updateBook(bookDto);
+        return new ResponseEntity<>(bookDto1, HttpStatus.OK);
     }
 
     @DeleteMapping("/{bookID}")
-    public ResponseEntity<String> deleteBook(@PathVariable String bookID) 
+    public ResponseEntity<Void> deleteBook(@PathVariable String bookID) 
     {
-        return new ResponseEntity<>("Book Deleted Successfully", HttpStatus.OK);
+        bookService.deleteBookByID(bookID);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

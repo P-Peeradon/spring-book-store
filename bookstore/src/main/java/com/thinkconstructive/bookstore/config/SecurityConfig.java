@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
@@ -17,14 +19,22 @@ public class SecurityConfig
     public UserDetailsService userDetailsService()
     {
         UserDetails userDetailsOne = User.withUsername("Test99")
-            .password("pizza112").build();
+            .password(passwordEncoder().encode("pizza112")).build();
         UserDetails userDetailsTwo = User.withUsername("Test88")
-            .password("british44").build();
+            .password(passwordEncoder().encode("british44")).build();
         UserDetails adminUser = User.withUsername("admin")
-            .password("newFuture").build();
+            .password(passwordEncoder().encode("newFuture")).build();
 
         return new InMemoryUserDetailsManager(userDetailsOne, 
                 userDetailsTwo, adminUser);
     }
+
+    @Bean
+    PasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
+
+    
 
 }

@@ -5,6 +5,9 @@ import java.util.List;
 import com.thinkconstructive.bookstore.dto.BookDto;
 import com.thinkconstructive.bookstore.service.BookService;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class BookServiceImpl implements BookService 
 {
 

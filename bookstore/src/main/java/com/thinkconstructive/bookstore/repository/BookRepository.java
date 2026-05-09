@@ -12,7 +12,6 @@ public interface BookRepository extends MongoRepository<Book, String>
     @Query("{bookID: '?0'}")
     Book findByID(String bookID);
 
-    @Query(value = "{ 'bookID' : {$eq: ?0} }")
     @Update(pipeline = { " { '$set': {'name': ?1} }"})
     void updateNameByID(String bookID, String name);
 
